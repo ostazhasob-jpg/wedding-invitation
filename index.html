@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دعوة زفاف بلال ومنى</title>
+    
+    <!-- استدعاء خط بيروت من Google Fonts وخط Cairo للبديل -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Beirut&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================
+           1. الأنماط العامة وإعدادات الصفحة (CSS)
+           ========================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Beirut', 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #fbf9f5 0%, #edf1f5 100%);
+            color: #2c3e50;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* خلفية مزخرفة خفيفة */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, rgba(255,255,255,0) 70%);
+            top: -50px;
+            right: -50px;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 550px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ==========================================
+           2. نموذج إدخال الاسم (Form Card)
+           ========================================== */
+        .form-card {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        .form-card h2 {
+            font-family: 'Beirut', sans-serif;
+            color: #d4af37;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .form-card p {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-family: 'Beirut', 'Cairo', sans-serif;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #d4af37;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 1.15rem;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 6px 18px rgba(212, 175, 55, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Beirut', sans-serif;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(212, 175, 55, 0.4);
+        }
+
+        /* ==========================================
+           3. بطاقة الدعوة التفاعلية (Invitation View)
+           ========================================== */
+        .invitation-card {
+            display: none;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 45px 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            border: 2px solid #d4af37;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .invitation-card.show {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* الإطار الزخرفي الداخلي */
+        .card-inner-border {
+            border: 1px dashed #d4af37;
+            border-radius: 16px;
+            padding: 30px 20px;
+            position: relative;
+        }
+
+        .bismillah {
+            font-family: 'Beirut', sans-serif;
+            font-size: 1.6rem;
+            color: #8b6b13;
+            margin-bottom: 15px;
+        }
+
+        .couple-names {
+            font-family: 'Beirut', sans-serif;
+            font-size: 2.6rem;
+            color: #2c3e50;
+            margin: 15px 0;
+            line-height: 1.3;
+        }
+
+        .couple-names span {
+            color: #d4af37;
+            display: inline-block;
+            margin: 0 8px;
+        }
+
+        .guest-greeting {
+            margin: 20px 0;
+            font-size: 1.2rem;
+            color: #4a5568;
+            line-height: 1.8;
+            font-family: 'Beirut', sans-serif;
+        }
+
+        .guest-name-highlight {
+            font-family: 'Beirut', sans-serif;
+            color: #d4af37;
+            font-size: 1.8rem;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .details-box {
+            margin: 25px 0;
+            padding: 18px 15px;
+            background-color: #faf8f3;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        .detail-item h4 {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 4px;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .detail-item p {
+            font-size: 1.1rem;
+            color: #2d3748;
+            font-family: 'Beirut', sans-serif;
+        }
+
+        .map-link {
+            display: inline-block;
+            margin-top: 5px;
+            color: #d4af37;
+            text-decoration: none;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+
+        .map-link:hover {
+            color: #aa7c11;
+            text-decoration: underline;
+        }
+
+        .action-buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-secondary {
+            background-color: #f7fafc;
+            color: #4a5568;
+            border: 1px solid #cbd5e0;
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            flex: 1;
+            font-family: 'Beirut', sans-serif;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #edf2f7;
+        }
+
+        /* تأثير التساقط */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #d4af37;
+            opacity: 0.7;
+            border-radius: 50%;
+            animation: fall 3s infinite linear;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(500px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Step 1: نموذج إدخال اسم الضيف -->
+        <div class="form-card" id="formCard">
+            <h2>دعوة حفل زفاف</h2>
+            <p>يسعدنا حضوركم وشرفنا مشاركتكم. يرجى إدخال اسمكم الكريم لعرض الدعوة المخصصة لكم.</p>
+            
+            <form id="nameForm" onsubmit="generateInvitation(event)">
+                <div class="input-group">
+                    <input type="text" id="guestName" placeholder="اكتب اسمك هنا (مثال: أ. محمد أحمد)" required autocomplete="off">
+                </div>
+                <button type="submit" class="btn-primary">عرض الدعوة الخاصة</button>
+            </form>
+        </div>
+
+        <!-- Step 2: بطاقة الدعوة التفاعلية -->
+        <div class="invitation-card" id="invitationCard">
+            <div class="card-inner-border">
+                <div class="bismillah">بسم الله الرحمن الرحيم</div>
+                
+                <p style="color: #718096; font-size: 0.95rem; font-family: 'Beirut', sans-serif;">بارك الله لهما وبارك عليهما وجمع بينهما في خير</p>
+                
+                <!-- أسماء العروسين -->
+                <div class="couple-names">
+                    بلال <span>&</span> منى
+                </div>
+
+                <div class="guest-greeting">
+                    يتشرف العروسان وعائلتاهما بدعوة
+                    <span class="guest-name-highlight" id="displayName">اسم الضيف</span>
+                    لمشاركتنا فرحتنا بأجمل لحظات العمر، وبحضوركم تكتمل قرحتنا.
+                </div>
+
+                <!-- تفاصيل الموعد والمكان -->
+                <div class="details-box">
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <h4>التاريخ</h4>
+                            <p>الاثنين 17 أكتوبر  2026</p>
+                        </div>
+                    </div>
+                    <hr style="border: 0; border-top: 1px dashed rgba(212, 175, 55, 0.3);">
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <h4>المكان</h4>
+                            <p>قاعة أفراح ماونت روز - قسم 3 - 6 أكتوبر - الجيزة</p>
+                            <a href="https://maps.app.goo.gl/3nwePxw5QwrJDY7e6?g_st=aw" target="_blank" class="map-link">📍عرض الموقع على الخريطة</a>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="font-size: 0.9rem; color: #a0aec0; font-family: 'Cairo', sans-serif;">ملاحظة: تكتمل فرحتنا بوجودكم وبدون استخدام الكاميرات</p>
+
+                <div class="action-buttons">
+                    <button class="btn-secondary" onclick="resetForm()">تغيير الاسم</button>
+                    <button class="btn-primary" style="flex: 2;" onclick="shareLink()">مشاركة الرابط</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+       4. البرمجة التفاعلية (JavaScript)
+       ========================================== -->
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const nameParam = urlParams.get('name');
+
+            if (nameParam) {
+                showCard(decodeURIComponent(nameParam));
+            }
+        };
+
+        function generateInvitation(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById('guestName').value.trim();
+            if (nameInput) {
+                const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?name=' + encodeURIComponent(nameInput);
+                window.history.pushState({path: newUrl}, '', newUrl);
+                
+                showCard(nameInput);
+            }
+        }
+
+        function showCard(name) {
+            document.getElementById('displayName').innerText = name;
+            
+            const formCard = document.getElementById('formCard');
+            const invitationCard = document.getElementById('invitationCard');
+
+            formCard.style.display = 'none';
+            invitationCard.classList.add('show');
+
+            createConfetti();
+        }
+
+        function resetForm() {
+            const formCard = document.getElementById('formCard');
+            const invitationCard = document.getElementById('invitationCard');
+
+            invitationCard.classList.remove('show');
+            setTimeout(() => {
+                invitationCard.style.display = 'none';
+                formCard.style.display = 'block';
+            }, 300);
+
+            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.pushState({path: cleanUrl}, '', cleanUrl);
+        }
+
+        function shareLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('تم نسخ رابط الدعوة المخصص بنجاح! يمكنك الآن إرساله للضيف.');
+            }).catch(err => {
+                alert('يمكنك نسخ رابط الصفحة الحالي ومشاركته مباشرة.');
+            });
+        }
+
+        function createConfetti() {
+            const card = document.getElementById('invitationCard');
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.backgroundColor = ['#d4af37', '#e2c044', '#f3e5ab', '#cbd5e0'][Math.floor(Math.random() * 4)];
+                card.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 4000);
+            }
+        }
+    </script>
+</body>
+</html>
